@@ -17,22 +17,22 @@ const ActividadesSection = () => {
     {
       title: 'Escolta',
       description: 'Participa en la escolta y representa a la escuela en eventos importantes.',
-      image: 'https://via.placeholder.com/400x200.png?text=Escolta',
+      image: '../img/Actividad_Escolta.jpeg',
     },
     {
       title: 'Fútbol',
       description: 'Únete al equipo de fútbol y mejora tus habilidades deportivas.',
-      image: 'https://via.placeholder.com/400x200.png?text=Fútbol',
+      image: '../img/Actividad_Fut.jpeg',
     },
     {
       title: 'Ajedrez',
       description: 'Desarrolla tu mente y estrategia en nuestro club de ajedrez.',
-      image: 'https://via.placeholder.com/400x200.png?text=Ajedrez',
+      image: '../img/Actividad_Ajedrez.jpeg',
     },
     {
       title: 'Ludoteca',
       description: 'Disfruta de juegos y actividades recreativas en nuestra ludoteca.',
-      image: 'https://via.placeholder.com/400x200.png?text=Ludoteca',
+      image: '../img/Actividad_Ludoteca.jpeg',
     },
   ];
 

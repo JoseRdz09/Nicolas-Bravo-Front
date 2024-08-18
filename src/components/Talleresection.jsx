@@ -17,12 +17,12 @@ const TalleresSection = () => {
     {
       title: 'Informática',
       description: 'Aprende sobre programación, redes y más en nuestro taller de informática.',
-      image: 'https://via.placeholder.com/400x200.png?text=Informática',
+      image: '../img/Taller_Computacion.jpg',
     },
     {
       title: 'Carpintería',
       description: 'Descubre el arte de trabajar con madera en nuestro taller de carpintería.',
-      image: 'https://via.placeholder.com/400x200.png?text=Carpintería',
+      image: '../img/Taller_Carpinteria.jpg',
     },
   ];
 

@@ -74,22 +74,22 @@ export default function Navbar() {
               {dropdownOpen && (
                 <ul className="absolute left-0 bg-white text-black rounded-lg shadow-lg w-48 z-10 mt-0">
                   <li className="rounded-lg hover:bg-gray-200">
-                    <Link to="../home/alumnos/inscripcion" className="block px-4 py-2 rounded-lg">
+                    <Link to="../home/alumnos" className="block px-4 py-2 rounded-lg">
                       Inscripción
                     </Link>
                   </li>
                   <li className="rounded-lg hover:bg-gray-200">
-                    <Link to="../home/alumnos/reinscripcion" className="block px-4 py-2 rounded-lg">
+                    <Link to="../home/alumnos" className="block px-4 py-2 rounded-lg">
                       Reinscripción
                     </Link>
                   </li>
                   <li className="rounded-lg hover:bg-gray-200">
-                    <Link to="../home/alumnos/calendario" className="block px-4 py-2 rounded-lg">
+                    <Link to="../home/alumnos" className="block px-4 py-2 rounded-lg">
                       Calendario
                     </Link>
                   </li>
                   <li className="rounded-lg hover:bg-gray-200">
-                    <Link to="../home/alumnos/lista-aceptados" className="block px-4 py-2 rounded-lg">
+                    <Link to="../home/alumnos" className="block px-4 py-2 rounded-lg">
                       Lista de Aceptados
                     </Link>
                   </li>
@@ -116,17 +116,17 @@ export default function Navbar() {
               {dropdownNosotrosOpen && (
                 <ul className="absolute left-0 bg-white text-black rounded-lg shadow-lg w-48 z-10 mt-0">
                   <li className="rounded-lg hover:bg-gray-200">
-                    <Link to="../home/nosotros/mision-vision" className="block px-4 py-2 rounded-lg">
+                    <Link to="../home/conocenos" className="block px-4 py-2 rounded-lg">
                       Misión y Visión
                     </Link>
                   </li>
                   <li className="rounded-lg hover:bg-gray-200">
-                    <Link to="../home/nosotros/objetivo-social" className="block px-4 py-2 rounded-lg">
+                    <Link to="../home/conocenos" className="block px-4 py-2 rounded-lg">
                       Objetivo Social
                     </Link>
                   </li>
                   <li className="rounded-lg hover:bg-gray-200">
-                    <Link to="../home/nosotros/principios" className="block px-4 py-2 rounded-lg">
+                    <Link to="../home/conocenos" className="block px-4 py-2 rounded-lg">
                       Principios
                     </Link>
                   </li>

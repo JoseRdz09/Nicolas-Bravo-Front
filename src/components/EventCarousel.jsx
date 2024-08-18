@@ -29,9 +29,6 @@ const EventGrid = () => {
       try {
         const response = await clienteAxios.get('/api/events');
         setEvents(response.data);
-      } catch (error) {
-        console.error('Error fetching events:', error);
-        setError('Error fetching events.');
       } finally {
         setLoading(false); // Ocultar spinner
       }
@@ -63,7 +60,8 @@ const EventGrid = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      setEvents([...events, response.data]);
+      // Actualizar eventos con el nuevo evento agregado
+      setEvents(prevEvents => [...prevEvents, response.data]);
       setModalVisible(false);
       setNewEvent({ title: '', description: '', images: [] });
       setImageFiles([]);
@@ -84,9 +82,8 @@ const EventGrid = () => {
     setDeletingEventId(id); // Muestra el spinner de carga para el evento que se está eliminando
   
     try {
-      console.log(`Deleting event with ID: ${id}`); // Debugging statement
       await clienteAxios.delete(`/api/events/${id}`);
-      setEvents(events.filter(event => event.id !== id));
+      setEvents(prevEvents => prevEvents.filter(event => event.id !== id));
       toast.success('Evento eliminado con éxito');
     } catch (error) {
       console.error('Error deleting event:', error);
@@ -95,7 +92,6 @@ const EventGrid = () => {
       setDeletingEventId(null); // Ocultar spinner después de eliminar el evento
     }
   };
-  
 
   const responsiveConfig = {
     desktop: {
@@ -120,157 +116,120 @@ const EventGrid = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="container mx-auto py-8 z-10 relative">
-      <h2 className="text-2xl text-center font-bold mb-4">Sección de Eventos</h2>
+    <div className="py-0 z-10 relative w-full">
+      <div className="container mx-auto">
+        <h2 className="text-3xl text-center font-bold text-gray-800 mb-10">Sección de Eventos</h2>
 
-      {/* Botones de administración (solo visibles en /admin) */}
-      {location.pathname === '/admin' && isAdmin && (
-        <div className="mb-4 text-center">
-          <button
-            onClick={() => setModalVisible(true)}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg mr-2"
-          >
-            Agregar Evento
-          </button>
-        </div>
-      )}
+        {/* Botones de administración (solo visibles en /admin) */}
+        {location.pathname === '/admin' && isAdmin && (
+          <div className="mb-4 text-center">
+            <button
+              onClick={() => setModalVisible(true)}
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg mr-2"
+            >
+              Agregar Evento
+            </button>
+          </div>
+        )}
 
-      {/* Mostrar mensaje si no hay eventos */}
-      {events.length === 0 ? (
-        <p className="text-center text-gray-500 mt-8">No hay eventos disponibles.</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {events.slice(0, 2).map((event) => (
-            <div key={event.id} className="p-4 border rounded-lg relative">
-              <Carousel responsive={responsiveConfig} className="z-0">
-                {JSON.parse(event.images).map((image, index) => {
-                  const imageUrl = `${import.meta.env.VITE_API_URL}${image.startsWith('/') ? image.slice(1) : image}`;
-                  
-                  return (
-                    <img
-                      key={index}
-                      src={imageUrl}
-                      alt={`Image ${index}`}
-                      className="rounded-lg shadow-lg object-cover"
-                      style={{ width: '100%', height: '300px' }}
-                    />
-                  );
-                })}
-              </Carousel>
-              <h3 className="text-lg font-bold mt-2">{event.title}</h3>
-              <p className="mt-2">{event.description}</p>
-              
-              {/* Botón de eliminar evento (solo visible en /admin) */}
-              {location.pathname === '/admin' && isAdmin && (
+        {/* Mostrar mensaje si no hay eventos */}
+        {events.length === 0 ? (
+          <p className="text-center text-gray-500 mt-8">No hay eventos disponibles.</p>
+        ) : (
+          <div className="grid grid-cols-2 gap-6"> {/* Ajuste para mostrar dos columnas */}
+            {events.map((event) => (
+              <div key={event.id} className="p-4 border rounded-lg relative">
+                <Carousel responsive={responsiveConfig} className="z-0">
+                  {JSON.parse(event.images).map((image, index) => {
+                    const imageUrl = `${import.meta.env.VITE_API_URL}${image.startsWith('/') ? image.slice(1) : image}`;
+                    
+                    return (
+                      <img
+                        key={index}
+                        src={imageUrl}
+                        alt={`Image ${index}`}
+                        className="rounded-lg shadow-lg object-cover"
+                        style={{ width: '100%', height: '350px' }} // Ajusta la altura de las imágenes
+                      />
+                    );
+                  })}
+                </Carousel>
+                <h3 className="text-lg font-bold mt-2">{event.title}</h3>
+                <p className="mt-2">{event.description}</p>
+                
+                {/* Botón de eliminar evento (solo visible en /admin) */}
+                {location.pathname === '/admin' && isAdmin && (
+                  <button
+                    onClick={() => handleDeleteEvent(event.id)}
+                    className="absolute top-2 right-2 px-2 py-1 bg-red-500 text-white rounded-lg"
+                  >
+                    {deletingEventId === event.id ? (
+                      <ClipLoader color="#fff" size={20} />
+                    ) : (
+                      'Eliminar'
+                    )}
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Modal para agregar evento */}
+        {modalVisible && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg w-3/4 md:w-1/2">
+              <h3 className="text-lg font-bold mb-4">Agregar Evento</h3>
+              <div className="mb-4">
+                <label className="block text-gray-700 mb-2">Título</label>
+                <input
+                  type="text"
+                  value={newEvent.title}
+                  onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-lg"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 mb-2">Descripción</label>
+                <textarea
+                  value={newEvent.description}
+                  onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-lg"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 mb-2">Imágenes</label>
+                <input
+                  type="file"
+                  multiple
+                  onChange={handleFileChange}
+                  className="w-full"
+                />
+              </div>
+              <div className="flex justify-end">
                 <button
-                  onClick={() => handleDeleteEvent(event.id)}
-                  className="absolute top-2 right-2 px-2 py-1 bg-red-500 text-white rounded-lg"
+                  onClick={() => setModalVisible(false)}
+                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg mr-2"
                 >
-                  {deletingEventId === event.id ? (
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleAddEvent}
+                  className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+                >
+                  {addingEvent ? (
                     <ClipLoader color="#fff" size={20} />
                   ) : (
-                    'Eliminar'
+                    'Agregar'
                   )}
                 </button>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Modal para agregar evento */}
-      {modalVisible && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg w-3/4 md:w-1/2">
-            <h3 className="text-lg font-bold mb-4">Agregar Evento</h3>
-            <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Título</label>
-              <input
-                type="text"
-                value={newEvent.title}
-                onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Descripción</label>
-              <textarea
-                value={newEvent.description}
-                onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
-                className="w-full px-3 py-2 border rounded-lg"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 mb-2">Imágenes</label>
-              <input
-                type="file"
-                multiple
-                onChange={handleFileChange}
-                className="w-full px-3 py-2 border rounded-lg"
-              />
-            </div>
-            <div className="flex justify-end">
-              <button
-                onClick={() => setModalVisible(false)}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg mr-2"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={handleAddEvent}
-                className="px-4 py-2 bg-blue-500 text-white rounded-lg"
-              >
-                {addingEvent ? (
-                  <ClipLoader color="#fff" size={20} /> // Spinner en el botón
-                ) : (
-                  'Agregar'
-                )}
-              </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-        {Array.isArray(events) && events.length > 2 && events.slice(2).map((event) => (
-          <div key={event.id} className="p-4 border rounded-lg relative">
-            <Carousel responsive={responsiveConfig} className="z-0">
-              {JSON.parse(event.images).map((image, index) => {
-                const imageUrl = `${import.meta.env.VITE_API_URL}${image.startsWith('/') ? image.slice(1) : image}`;
-                
-                return (
-                  <img
-                    key={index}
-                    src={imageUrl}
-                    alt={`Image ${index}`}
-                    className="rounded-lg shadow-lg object-cover"
-                    style={{ width: '100%', height: '300px' }}
-                  />
-                );
-              })}
-            </Carousel>
-            <h3 className="text-lg font-bold mt-2">{event.title}</h3>
-            <p className="mt-2">{event.description}</p>
-            
-            {/* Botón de eliminar evento (solo visible en /admin) */}
-            {location.pathname === '/admin' && isAdmin && (
-              <button
-                onClick={() => handleDeleteEvent(event.id)}
-                className="absolute top-2 right-2 px-2 py-1 bg-red-500 text-white rounded-lg"
-              >
-                {deletingEventId === event.id ? (
-                  <ClipLoader color="#fff" size={20} />
-                ) : (
-                  'Eliminar'
-                )}
-              </button>
-            )}
-          </div>
-        ))}
+        )}
       </div>
-
+      <hr className="border-t-8 border-persian-blue-950 my-8" />
       <ToastContainer />
-      <hr className="w-full border-t-8 border-persian-blue-950 mt-8" />
     </div>
   );
 };

@@ -208,8 +208,9 @@ const Comunicados = ({ announcements, user, setAnnouncements }) => {
                             >
                                 <option value="">Selecciona un logo</option>
                                 <option value="task.png">Tarea</option>
-                                <option value="megafono2.png">Alerta</option>
-                                <option value="logo3.png">Logo 3</option>
+                                <option value="megafono2.png">Megafono</option>
+                                <option value="Sirena.png">Sirena</option>
+                                <option value="Peligro.png">Peligro</option>
                             </select>
                         </div>
                         <div className="flex justify-end">
