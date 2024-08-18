@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "title": "Evento 1",
+    "description": "Descripción del Evento 1.",
+    "images": [
+      { "url": "/img/img_e1.jpg", "alt": "Imagen 1" },
+      { "url": "/img/img_e2.jpg", "alt": "Imagen 2" },
+      { "url": "/img/img_e3.jpg", "alt": "Imagen 1" },
+      { "url": "/img/home2.png", "alt": "Imagen 2" }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Evento 2",
+    "description": "Descripción del Evento 2.",
+    "images": [
+      { "url": "/img/home2.png", "alt": "Imagen 1" },
+      { "url": "/img/home2.png", "alt": "Imagen 2" },
+      { "url": "/img/home2.png", "alt": "Imagen 1" },
+      { "url": "/img/home2.png", "alt": "Imagen 2" }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Evento 3",
+    "description": "Descripción del Evento 3.",
+    "images": [
+      { "url": "/img/home2.png", "alt": "Imagen 1" },
+      { "url": "/img/home2.png", "alt": "Imagen 2" },
+      { "url": "/img/home2.png", "alt": "Imagen 1" },
+      { "url": "/img/home2.png", "alt": "Imagen 2" }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Evento 4",
+    "description": "Descripción del Evento 4.",
+    "images": [
+      { "url": "/img/home2.png", "alt": "Imagen 1" },
+      { "url": "/img/home2.png", "alt": "Imagen 2" },
+      { "url": "/img/home2.png", "alt": "Imagen 1" },
+      { "url": "/img/home2.png", "alt": "Imagen 2" }
+    ]
+  }
+]
