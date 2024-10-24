@@ -4,7 +4,7 @@ import axios from 'axios';
 
 // Configura la instancia de Axios
 const api = axios.create({
-    baseURL: 'http://localhost:8000/api', // Reemplaza con tu URL base
+    baseURL: 'https://kolfipi.mnz.dom.my.id//api', // Reemplaza con tu URL base
 });
 
 // Configura un interceptor para agregar el token a las solicitudes
