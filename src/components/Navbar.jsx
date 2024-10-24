@@ -41,7 +41,7 @@ export default function Navbar() {
       <div className="container mx-auto flex items-center justify-between p-4">
         {/* Logotipo a la izquierda */}
         <div className="text-white text-xl flex-shrink-0">
-          <Link to="/" onClick={() => { scrollToTop(); handleMenuItemClick(); }} className="block">
+          <Link to="/auth/registro" onClick={() => { scrollToTop(); handleMenuItemClick(); }} className="block">
             <img src="../img/Logo.png" alt="Logo" className="w-16 h-16" />
           </Link>
         </div>
